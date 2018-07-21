@@ -28,6 +28,7 @@
 #include "base/command_line.h"
 #include "base/environment.h"
 #include "base/files/file_util.h"
+#include "base/memory/scoped_refptr.h"
 #include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_util.h"
@@ -496,7 +497,7 @@ std::unique_ptr<net::ClientCertStore> AtomBrowserClient::CreateClientCertStore(
 #endif
 }
 
-content::LoginDelegate* AtomBrowserClient::CreateLoginDelegate(
+scoped_refptr<content::LoginDelegate> AtomBrowserClient::CreateLoginDelegate(
     net::AuthChallengeInfo* auth_info,
     content::ResourceRequestInfo::WebContentsGetter web_contents_getter,
     bool is_main_frame,
@@ -504,8 +505,8 @@ content::LoginDelegate* AtomBrowserClient::CreateLoginDelegate(
     bool first_auth_attempt,
     const base::Callback<void(const base::Optional<net::AuthCredentials>&)>&
         auth_required_callback) {
-  return new LoginHandler(auth_info, web_contents_getter, url,
-                          auth_required_callback);
+  return base::MakeRefCounted<LoginHandler>(auth_info, web_contents_getter, url,
+                                            auth_required_callback);
 }
 
 brightray::BrowserMainParts* AtomBrowserClient::OverrideCreateBrowserMainParts(
