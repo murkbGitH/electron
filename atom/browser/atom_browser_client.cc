@@ -496,8 +496,7 @@ std::unique_ptr<net::ClientCertStore> AtomBrowserClient::CreateClientCertStore(
 #endif
 }
 
-content::ResourceDispatcherHostLoginDelegate*
-AtomBrowserClient::CreateLoginDelegate(
+content::LoginDelegate* AtomBrowserClient::CreateLoginDelegate(
     net::AuthChallengeInfo* auth_info,
     content::ResourceRequestInfo::WebContentsGetter web_contents_getter,
     bool is_main_frame,

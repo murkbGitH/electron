@@ -9,7 +9,7 @@
 #include "base/optional.h"
 #include "base/strings/string16.h"
 #include "base/synchronization/lock.h"
-#include "content/public/browser/resource_dispatcher_host_login_delegate.h"
+#include "content/public/browser/login_delegate.h"
 #include "content/public/browser/resource_request_info.h"
 
 namespace content {
@@ -24,7 +24,7 @@ class AuthCredentials;
 namespace atom {
 
 // Handles the HTTP basic auth, must be created on IO thread.
-class LoginHandler : public content::ResourceDispatcherHostLoginDelegate {
+class LoginHandler : public content::LoginDelegate {
  public:
   LoginHandler(
       net::AuthChallengeInfo* auth_info,
@@ -48,7 +48,7 @@ class LoginHandler : public content::ResourceDispatcherHostLoginDelegate {
  protected:
   ~LoginHandler() override;
 
-  // content::ResourceDispatcherHostLoginDelegate:
+  // content::LoginDelegate:
   void OnRequestCancelled() override;
 
  private:
