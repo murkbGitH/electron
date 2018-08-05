@@ -3,7 +3,9 @@
 const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const path = require('path')
+const cp = require('child_process')
 const {closeWindow} = require('./window-helpers')
+const {emittedOnce} = require('./events-helpers')
 
 const {expect} = chai
 chai.use(dirtyChai)
@@ -66,6 +68,22 @@ describe('ipc main module', () => {
       })
 
       w.loadURL(`file://${path.join(fixtures, 'api', 'render-view-deleted.html')}`)
+    })
+  })
+
+  describe('ipcMain.on', () => {
+    it('is not used for internals', async () => {
+      const appPath = path.join(__dirname, 'fixtures', 'api', 'ipc-main-listeners')
+      const electronPath = remote.getGlobal('process').execPath
+      const appProcess = cp.spawn(electronPath, [appPath])
+
+      let output = ''
+      appProcess.stdout.on('data', (data) => { output += data })
+
+      await emittedOnce(appProcess.stdout, 'end')
+
+      output = JSON.parse(output)
+      expect(output).to.deep.equal(['error'])
     })
   })
 })

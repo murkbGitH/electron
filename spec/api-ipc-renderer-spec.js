@@ -5,6 +5,7 @@ const dirtyChai = require('dirty-chai')
 const http = require('http')
 const path = require('path')
 const {closeWindow} = require('./window-helpers')
+const {emittedOnce} = require('./events-helpers')
 
 const {expect} = chai
 chai.use(dirtyChai)
@@ -181,6 +182,19 @@ describe('ipc renderer module', () => {
         w.webContents.reload()
       })
       w.loadURL(`file://${path.join(fixtures, 'api', 'remote-event-handler.html')}`)
+    })
+  })
+
+  describe('ipcRenderer.on', () => {
+    it('is not used for internals', async () => {
+      w = new BrowserWindow({ show: false })
+      w.loadURL('about:blank')
+
+      await emittedOnce(w.webContents, 'did-finish-load')
+
+      const script = `require('electron').ipcRenderer.eventNames()`
+      const result = await w.webContents.executeJavaScript(script)
+      expect(result).to.deep.equal([])
     })
   })
 })
