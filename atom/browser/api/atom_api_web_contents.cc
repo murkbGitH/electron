@@ -1549,13 +1549,14 @@ void WebContents::TabTraverse(bool reverse) {
   web_contents()->FocusThroughTabTraversal(reverse);
 }
 
-bool WebContents::SendIPCMessage(bool all_frames,
+bool WebContents::SendIPCMessage(bool internal,
+                                 bool all_frames,
                                  const base::string16& channel,
                                  const base::ListValue& args) {
   auto* frame_host = web_contents()->GetMainFrame();
   if (frame_host) {
     return frame_host->Send(new AtomFrameMsg_Message(
-        frame_host->GetRoutingID(), all_frames, channel, args));
+        frame_host->GetRoutingID(), internal, all_frames, channel, args));
   }
   return false;
 }

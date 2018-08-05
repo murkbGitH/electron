@@ -183,16 +183,4 @@ describe('ipc renderer module', () => {
       w.loadURL(`file://${path.join(fixtures, 'api', 'remote-event-handler.html')}`)
     })
   })
-
-  it('throws an error when removing all the listeners', () => {
-    ipcRenderer.on('test-event', () => {})
-    expect(ipcRenderer.listenerCount('test-event')).to.equal(1)
-
-    expect(() => {
-      ipcRenderer.removeAllListeners()
-    }).to.throw(/Removing all listeners from ipcRenderer will make Electron internals stop working/)
-
-    ipcRenderer.removeAllListeners('test-event')
-    expect(ipcRenderer.listenerCount('test-event')).to.equal(0)
-  })
 })

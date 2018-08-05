@@ -55,18 +55,6 @@ describe('ipc main module', () => {
     })
   })
 
-  it('throws an error when removing all the listeners', () => {
-    ipcMain.on('test-event', () => {})
-    expect(ipcMain.listenerCount('test-event')).to.equal(1)
-
-    expect(() => {
-      ipcMain.removeAllListeners()
-    }).to.throw(/Removing all listeners from ipcMain will make Electron internals stop working/)
-
-    ipcMain.removeAllListeners('test-event')
-    expect(ipcMain.listenerCount('test-event')).to.equal(0)
-  })
-
   describe('remote objects registry', () => {
     it('does not dereference until the render view is deleted (regression)', (done) => {
       w = new BrowserWindow({ show: false })

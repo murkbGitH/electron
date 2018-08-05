@@ -33,7 +33,8 @@ IPC_SYNC_MESSAGE_ROUTED2_1(AtomFrameHostMsg_Message_Sync,
                            base::ListValue /* arguments */,
                            base::ListValue /* result */)
 
-IPC_MESSAGE_ROUTED3(AtomFrameMsg_Message,
+IPC_MESSAGE_ROUTED4(AtomFrameMsg_Message,
+                    bool /* internal */,
                     bool /* send_to_all */,
                     base::string16 /* channel */,
                     base::ListValue /* arguments */)

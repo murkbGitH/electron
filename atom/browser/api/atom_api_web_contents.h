@@ -177,7 +177,8 @@ class WebContents : public mate::TrackableObject<WebContents>,
   void TabTraverse(bool reverse);
 
   // Send messages to browser.
-  bool SendIPCMessage(bool all_frames,
+  bool SendIPCMessage(bool internal,
+                      bool all_frames,
                       const base::string16& channel,
                       const base::ListValue& args);
 

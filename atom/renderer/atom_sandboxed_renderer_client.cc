@@ -106,6 +106,7 @@ class AtomSandboxedRenderFrameObserver : public AtomRenderFrameObserver {
 
  protected:
   void EmitIPCEvent(blink::WebLocalFrame* frame,
+                    bool internal,
                     const base::string16& channel,
                     const base::ListValue& args) override {
     if (!frame)
@@ -115,7 +116,8 @@ class AtomSandboxedRenderFrameObserver : public AtomRenderFrameObserver {
     v8::HandleScope handle_scope(isolate);
     auto context = frame->MainWorldScriptContext();
     v8::Context::Scope context_scope(context);
-    v8::Local<v8::Value> argv[] = {mate::ConvertToV8(isolate, channel),
+    v8::Local<v8::Value> argv[] = {mate::ConvertToV8(isolate, internal),
+                                   mate::ConvertToV8(isolate, channel),
                                    mate::ConvertToV8(isolate, args)};
     renderer_client_->InvokeIpcCallback(
         context, "onMessage",
