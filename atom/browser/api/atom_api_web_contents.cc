@@ -1550,13 +1550,13 @@ void WebContents::TabTraverse(bool reverse) {
 }
 
 bool WebContents::SendIPCMessage(bool internal,
-                                 bool all_frames,
+                                 bool send_to_all,
                                  const base::string16& channel,
                                  const base::ListValue& args) {
   auto* frame_host = web_contents()->GetMainFrame();
   if (frame_host) {
     return frame_host->Send(new AtomFrameMsg_Message(
-        frame_host->GetRoutingID(), internal, all_frames, channel, args));
+        frame_host->GetRoutingID(), internal, send_to_all, channel, args));
   }
   return false;
 }

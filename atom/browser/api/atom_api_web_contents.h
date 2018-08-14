@@ -178,7 +178,7 @@ class WebContents : public mate::TrackableObject<WebContents>,
 
   // Send messages to browser.
   bool SendIPCMessage(bool internal,
-                      bool all_frames,
+                      bool send_to_all,
                       const base::string16& channel,
                       const base::ListValue& args);
 
