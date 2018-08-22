@@ -8,6 +8,3 @@ v8_typed_array_max_size_in_heap = 0
 
 proprietary_codecs = true
 ffmpeg_branding = "Chrome"
-
-# FIXME(alexeykuzmin): Should be disabled only on linux.
-enable_widevine = false
