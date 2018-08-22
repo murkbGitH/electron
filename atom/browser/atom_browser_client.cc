@@ -45,6 +45,7 @@
 #include "content/public/common/content_switches.h"
 #include "content/public/common/url_constants.h"
 #include "content/public/common/web_preferences.h"
+#include "device/geolocation/public/cpp/location_provider.h"
 #include "net/ssl/ssl_cert_request_info.h"
 #include "ppapi/host/ppapi_host.h"
 #include "services/network/public/cpp/resource_request_body.h"
@@ -64,6 +65,10 @@
 #if defined(ENABLE_PEPPER_FLASH)
 #include "chrome/browser/renderer_host/pepper/chrome_browser_pepper_host_factory.h"
 #endif  // defined(ENABLE_PEPPER_FLASH)
+
+#if defined(OVERRIDE_LOCATION_PROVIDER)
+#include "atom/browser/fake_location_provider.h"
+#endif  // defined(OVERRIDE_LOCATION_PROVIDER)
 
 using content::BrowserThread;
 
@@ -507,6 +512,15 @@ AtomBrowserClient::CreateLoginDelegate(
         auth_required_callback) {
   return new LoginHandler(auth_info, web_contents_getter, url,
                           auth_required_callback);
+}
+
+std::unique_ptr<device::LocationProvider>
+AtomBrowserClient::OverrideSystemLocationProvider() {
+#if defined(OVERRIDE_LOCATION_PROVIDER)
+  return std::make_unique<FakeLocationProvider>();
+#else
+  return nullptr;
+#endif
 }
 
 brightray::BrowserMainParts* AtomBrowserClient::OverrideCreateBrowserMainParts(

@@ -114,6 +114,8 @@ class AtomBrowserClient : public brightray::BrowserClient,
       bool first_auth_attempt,
       const base::Callback<void(const base::Optional<net::AuthCredentials>&)>&
           auth_required_callback) override;
+  std::unique_ptr<device::LocationProvider> OverrideSystemLocationProvider()
+      override;
 
   // brightray::BrowserClient:
   brightray::BrowserMainParts* OverrideCreateBrowserMainParts(
