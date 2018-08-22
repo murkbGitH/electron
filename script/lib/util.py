@@ -8,7 +8,6 @@ import platform
 import re
 import shutil
 import ssl
-import stat
 import subprocess
 import sys
 import tarfile
@@ -84,7 +83,6 @@ def download(text, url, path):
     if hasattr(ssl, '_create_unverified_context'):
       ssl._create_default_https_context = ssl._create_unverified_context
 
-    print "Downloading %s to %s" % (url, path)
     web_file = urllib2.urlopen(url)
     file_size = int(web_file.info().getheaders("Content-Length")[0])
     downloaded_size = 0
@@ -296,9 +294,6 @@ def update_node_modules(dirname, env=None):
         pass
     else:
       execute_stdout(args, env)
-
-def add_exec_bit(filename):
-  os.chmod(filename, os.stat(filename).st_mode | stat.S_IEXEC)
 
 def clean_parse_version(v):
   return parse_version(v.split("-")[0])        
